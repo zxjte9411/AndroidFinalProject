@@ -14,11 +14,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class NavigationBarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    public final String TAG = "Debug";
+
     private ViewPager viewPager;
 
     //fragments
@@ -54,7 +58,7 @@ public class NavigationBarActivity extends AppCompatActivity
 
         tabLayout = findViewById(R.id.tblTabLine);
         tabLayout.setupWithViewPager(viewPager);
-//        tabLayout.setOnScrollChangeListener();
+        viewPager.setOnPageChangeListener(onPageChangeListener);
 
         albumFragment = new AlbumFragment();
         playListFragmen = new PlayListFragment();
@@ -124,6 +128,31 @@ public class NavigationBarActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//            Log.d("onPageScrolled", String.valueOf(position));
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            if(position == 0) {
+                navigationView.setCheckedItem(R.id.nav_playList);
+            } else if(position == 1){
+                navigationView.setCheckedItem(R.id.nav_singer);
+            } else if(position == 2){
+                navigationView.setCheckedItem(R.id.nav_album);
+            } else if(position == 3){
+                navigationView.setCheckedItem(R.id.nav_song);
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+//            Log.d("onPageScrollStateChanged", String.valueOf(state));
+        }
+    };
 
     public class SectionPagerAdapter extends FragmentPagerAdapter {
         SectionPagerAdapter(FragmentManager fm) {
