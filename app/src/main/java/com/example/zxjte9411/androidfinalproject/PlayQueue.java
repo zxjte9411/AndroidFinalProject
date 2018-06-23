@@ -2,6 +2,9 @@ package com.example.zxjte9411.androidfinalproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,13 +14,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class Home extends AppCompatActivity
+public class PlayQueue extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_play_queue);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -29,8 +32,7 @@ public class Home extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_home);
-
+        navigationView.setCheckedItem(R.id.nav_queue_music);
     }
 
     @Override
@@ -46,7 +48,7 @@ public class Home extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
+        getMenuInflater().inflate(R.menu.play_queue, menu);
         return true;
     }
 
@@ -72,14 +74,13 @@ public class Home extends AppCompatActivity
         int id = item.getItemId();
 
         Intent intent = new Intent();
-        intent.setClass(Home.this,NavigationBarActivity.class);
+        intent.setClass(PlayQueue.this,NavigationBarActivity.class);
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
-
-        } else if (id == R.id.nav_queue_music) {
-            intent.setClass(Home.this,PlayQueue.class);
+            intent.setClass(PlayQueue.this,Home.class);
             startActivity(intent);
+        } else if (id == R.id.nav_queue_music) {
+
         } else if (id == R.id.nav_playList) {
             intent.putExtra("View",0);
             startActivity(intent);
@@ -96,7 +97,7 @@ public class Home extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
