@@ -101,7 +101,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             intent.putExtra("View", 3);
             startActivity(intent);
         } else if (id == R.id.nav_folder) {
-
+            intent.setClass(Home.this,Folder.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

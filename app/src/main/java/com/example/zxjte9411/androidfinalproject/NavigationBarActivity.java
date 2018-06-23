@@ -140,7 +140,8 @@ public class NavigationBarActivity extends AppCompatActivity
         } else if (id == R.id.nav_song) {
             viewPager.setCurrentItem(3);
         } else if (id == R.id.nav_folder) {
-
+            intent.setClass(NavigationBarActivity.this,Folder.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
