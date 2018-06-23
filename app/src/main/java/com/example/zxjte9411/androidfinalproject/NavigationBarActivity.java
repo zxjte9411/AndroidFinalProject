@@ -123,14 +123,14 @@ public class NavigationBarActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Intent intent = new Intent();
 
         if (id == R.id.nav_home) {
-            Intent intent = new Intent();
             intent.setClass(NavigationBarActivity.this,Home.class);
             startActivity(intent);
-
         } else if (id == R.id.nav_queue_music) {
-
+            intent.setClass(NavigationBarActivity.this,PlayQueue.class);
+            startActivity(intent);
         } else if (id == R.id.nav_playList) {
             viewPager.setCurrentItem(0);
         } else if (id == R.id.nav_singer) {

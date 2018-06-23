@@ -86,11 +86,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             // Handle the camera action
 
         } else if (id == R.id.nav_queue_music) {
-
+            intent.setClass(Home.this,PlayQueue.class);
+            startActivity(intent);
         } else if (id == R.id.nav_playList) {
             intent.putExtra("View", 0);
             startActivity(intent);
-
         } else if (id == R.id.nav_singer) {
             intent.putExtra("View", 1);
             startActivity(intent);
