@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/play_list_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/play_list_fragment"
     tools:context=".PlayListFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -12,4 +12,23 @@
         android:layout_height="match_parent"
         android:text="Playlist" />
 
+    <Button
+        android:id="@+id/btn_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="click"/>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/path_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+    </LinearLayout>
 </FrameLayout>
