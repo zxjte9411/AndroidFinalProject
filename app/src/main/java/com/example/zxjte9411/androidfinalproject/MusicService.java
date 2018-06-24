@@ -35,6 +35,7 @@ public class MusicService extends Service {
 
         //创建音乐播放器对象
         player = new MediaPlayer();
+        player.setLooping(true);
     }
 
     //销毁播放音乐服务
@@ -60,6 +61,7 @@ public class MusicService extends Service {
             if(player == null)
             {
                 player = new MediaPlayer();
+                player.setLooping(true);
             }
 
             //重置

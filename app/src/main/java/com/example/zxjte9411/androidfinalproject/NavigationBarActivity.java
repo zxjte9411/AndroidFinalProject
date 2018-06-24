@@ -133,10 +133,6 @@ public class NavigationBarActivity extends AppCompatActivity implements Navigati
                 intent.setClass(NavigationBarActivity.this,Home.class);
                 startActivity(intent);
                 break;
-            case R.id.nav_queue_music:
-                intent.setClass(NavigationBarActivity.this,PlayQueue.class);
-                startActivity(intent);
-                break;
             case R.id.nav_playList:
                 viewPager.setCurrentItem(0);
                 break;

@@ -7,10 +7,6 @@
     tools:context=".PlayListFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Playlist" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
