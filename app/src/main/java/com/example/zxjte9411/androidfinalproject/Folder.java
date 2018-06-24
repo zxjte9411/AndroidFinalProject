@@ -36,7 +36,7 @@ public class Folder extends AppCompatActivity
     private ArrayList<String> fileNameList;
     private ArrayList<File> filePathList;
     private ListView pathListView;
-    MediaPlayer mediaPlayer;
+//    MediaPlayer mediaPlayer;
     ArrayAdapter arrayAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class Folder extends AppCompatActivity
 //        fileNameList.add(0,previousPag);
         arrayAdapter = Home.arrayListViewAdapter;
         pathListView.setAdapter(arrayAdapter);
-        mediaPlayer = new MediaPlayer();
+//        mediaPlayer = new MediaPlayer();
     }
 
     @Override
@@ -143,38 +143,27 @@ public class Folder extends AppCompatActivity
             Toast.makeText(Folder.this, fileNameList.get(i), Toast.LENGTH_SHORT).show();
             File isFile = new File(folder.getPath() + "/" + fileNameList.get(i));
             Log.d("isFile", String.valueOf(isFile.isFile()));
-            if(isFile.isFile()){
+            if (isFile.isFile()) {
                 Log.e("folderName", isFile.getName());
                 Log.e("parentPath", isFile.getParentFile().getName());
-                Log.e("root",folder.getPath());
+                Log.e("root", folder.getPath());
+
                 Uri uri = Uri.fromFile(new File(filePathList.get(i - 1).getPath()));
-                if(mediaPlayer.isPlaying()){
-                    mediaPlayer.stop();
-                    mediaPlayer.reset();
+                MusicService.path = filePathList.get(i - 1).getPath();
+                if (Home.mi.isPlaying()) {
+                    Home.mi.stop();
                 }
-                else{
-                    mediaPlayer.stop();
-                    mediaPlayer.reset();
-                }
-                try {
-                    mediaPlayer.setDataSource(Folder.this,uri);
-                    mediaPlayer.prepare();
-                    mediaPlayer.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            else {//進入上層目錄
-                if(fileNameList.get(i).equals("..")){
+                Home.mi.play();
+            } else {//進入上層目錄
+                if (fileNameList.get(i).equals("..")) {
                     Log.e("folderName", isFile.getName());
                     Log.e("parentPath", isFile.getParentFile().getParentFile().getName());
-                    Log.e("root",folder.getPath());
+                    Log.e("root", folder.getPath());
                     resetListView(isFile.getParentFile().getParentFile());
-                }
-                else {//進入一般資料夾
+                } else {//進入一般資料夾
                     Log.e("folderName", isFile.getName());
                     Log.e("parentPath", isFile.getParentFile().getName());
-                    Log.e("root",folder.getPath());
+                    Log.e("root", folder.getPath());
                     resetListView(isFile);
                 }
             }
