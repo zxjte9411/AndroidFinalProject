@@ -16,20 +16,23 @@
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="APP名稱 : PotPlayer" />
+            android:layout_height="70dp"
+            android:text="APP名稱 : PotPlayer"
+            android:textSize="30dp" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="作者 : 105590016 周傳益" />
+            android:text="作者 : 105590016 周傳益"
+            android:textSize="25dp"/>
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="作者 : 105590046 卓旭嘉" />
+            android:text="作者 : 105590046 卓旭嘉"
+            android:textSize="25dp"/>
     </LinearLayout>
 
 </FrameLayout>
