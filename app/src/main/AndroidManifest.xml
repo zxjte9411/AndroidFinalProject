@@ -19,7 +19,7 @@
         <activity
             android:name=".NavigationBarActivity"
             android:label="@string/title_activity_navigation_bar"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Home"
             android:label="@string/app_name"
@@ -33,11 +33,16 @@
         <activity
             android:name=".PlayQueue"
             android:label="@string/title_activity_play_queue"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Folder"
             android:label="@string/title_activity_floder"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".MusicService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

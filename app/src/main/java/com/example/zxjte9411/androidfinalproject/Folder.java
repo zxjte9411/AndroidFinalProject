@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,7 +37,7 @@ public class Folder extends AppCompatActivity
     private ArrayList<String> fileNameList;
     private ArrayList<File> fileArrayList;
     private ListView pathListView;
-    MediaPlayer mediaPlayer;
+//    MediaPlayer mediaPlayer;
     ArrayAdapter arrayAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,7 @@ public class Folder extends AppCompatActivity
         Collections.sort(fileNameList);
         arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,fileNameList);
         pathListView.setAdapter(arrayAdapter);
-        mediaPlayer = new MediaPlayer();
+//        mediaPlayer = new MediaPlayer();
     }
 
     @Override
@@ -144,19 +145,14 @@ public class Folder extends AppCompatActivity
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             Toast.makeText(Folder.this, fileNameList.get(i), Toast.LENGTH_SHORT).show();
-            Uri uri = Uri.fromFile(new File(folder.getPath() + "/Anicca.mp3"));
-            if(mediaPlayer.isPlaying()){
-                mediaPlayer.release();
-                mediaPlayer.reset();
+            Uri uri = Uri.fromFile(new File(folder.getPath() + "/" + fileNameList.get(i)));
+            MusicService.path = folder.getPath() + "/" + fileNameList.get(i);
+            Log.e("tag",folder.getPath() + "/" + fileNameList.get(i));
+            if(Home.mi.isPlaying()){
+                Home.mi.stop();
             }
-            try {
-                mediaPlayer.setDataSource(Folder.this,uri);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-//            folder = new File(folder.getPath() + "/" + list.get(i));
+            Home.mi.play();
+            //            folder = new File(folder.getPath() + "/" + list.get(i));
 //            Toast.makeText(Folder.this, folder.getAbsolutePath(), Toast.LENGTH_SHORT).show();
 //            fileNameList.clear();
 //            fileNameList.add(previousPag);
