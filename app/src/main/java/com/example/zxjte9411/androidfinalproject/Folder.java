@@ -43,6 +43,7 @@ public class Folder extends AppCompatActivity
                 Log.e("parentPath", isFile.getParentFile().getName());
                 Log.e("root", folder.getPath());
                 MusicService.path = filePathList.get(i - 1).getPath();
+                Home.name = fileNameList.get(i);
                 if (Home.mi.isPlaying()) {
                     Home.mi.stop();
                 }
@@ -140,9 +141,6 @@ public class Folder extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             intent.setClass(Folder.this,Home.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_queue_music) {
-            intent.setClass(Folder.this,PlayQueue.class);
             startActivity(intent);
         } else if (id == R.id.nav_playList) {
             intent.putExtra("View",0);

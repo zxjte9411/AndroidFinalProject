@@ -31,10 +31,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PlayQueue"
-            android:label="@string/title_activity_play_queue"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Folder"
             android:label="@string/title_activity_floder"
             android:theme="@style/AppTheme.NoActionBar" />

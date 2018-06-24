@@ -49,6 +49,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     public static final String previousPag = "..";
     public static File root, folder;
     public static String path;
+
     public static ArrayList<String> fileNameList;
     public static ArrayList<File> filePathList;
     public static ArrayList<File> musicPlayList;
@@ -57,6 +58,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     private static SeekBar sb;
     private static TextView tv_progress;
     private static TextView tv_total;
+    public static String name;
     //创建消息处理器对象
     @SuppressLint("HandlerLeak")
     public static Handler handler = new Handler(){
@@ -132,6 +134,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             }
 
             tv_progress.setText(strMinute + ":" + strSecond);
+            tv_name.setText(name);
         }
     };
     private static TextView tv_name;
@@ -249,9 +252,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         if (id == R.id.nav_home) {
             // Handle the camera action
 
-        } else if (id == R.id.nav_queue_music) {
-            intent.setClass(Home.this,PlayQueue.class);
-            startActivity(intent);
         } else if (id == R.id.nav_playList) {
             intent.putExtra("View", 0);
             startActivity(intent);
@@ -403,5 +403,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         filePathList.addAll(filePathListTmp);
         fileNameList.add(0,previousPag);
         arrayListViewAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,fileNameList);//所有檔案清單
+        try {
+            MusicService.path = musicPlayList.get(0).getPath();
+            name = musicPlayList.get(0).getName();
+        }
+        catch (Exception e){
+            Toast.makeText(this, "當前目錄無音樂", Toast.LENGTH_SHORT).show();
+        }
     }
 }

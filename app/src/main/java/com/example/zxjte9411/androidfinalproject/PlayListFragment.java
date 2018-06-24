@@ -8,8 +8,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import java.io.File;
 import java.util.Objects;
 
 
@@ -40,6 +43,7 @@ public class PlayListFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -48,6 +52,7 @@ public class PlayListFragment extends Fragment {
         pathListView = Objects.requireNonNull(getActivity()).findViewById(R.id.play_list_List_view);
 
         pathListView.setAdapter(Home.musicPlayListAdapter);
+        pathListView.setOnItemClickListener(onItemClickListener);
     }
 
     @Override
@@ -71,4 +76,17 @@ public class PlayListFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Toast.makeText(getActivity(), Home.musicPlayList.get(position).getName(), Toast.LENGTH_SHORT).show();
+            MusicService.path = Home.musicPlayList.get(position).getPath();
+            Home.name = Home.musicPlayList.get(position).getName();
+            if (Home.mi.isPlaying()) {
+                Home.mi.stop();
+            }
+            Home.mi.play();
+        }
+
+    };
 }

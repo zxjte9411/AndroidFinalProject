@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.Timer;
@@ -61,8 +62,9 @@ public class MusicService extends Service {
             if(player == null)
             {
                 player = new MediaPlayer();
+                player.setLooping(true);
             }
-
+            player.setLooping(true);
             //重置
             player.reset();
 
@@ -81,6 +83,7 @@ public class MusicService extends Service {
         } catch (Exception e) {
 //            e.printStackTrace();
             Toast.makeText(this, "請先選取一首歌", Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -161,13 +164,13 @@ public class MusicService extends Service {
 
                                    //获得歌曲总时长
                                    int duration = player.getDuration();
-
+                                   player.setLooping(true);
                                    //获得歌曲的当前播放进度
                                    int currentPosition = player.getCurrentPosition();
 
                                    //创建消息对象
                                    Message msg = Home.handler.obtainMessage();
-
+                                    Log.e("isLooping", String.valueOf(player.isLooping()));
                                    //将音乐的播放进度封装至消息对象中
                                    Bundle bundle = new Bundle();
                                    bundle.putInt("duration", duration);
@@ -180,7 +183,7 @@ public class MusicService extends Service {
                            },
 
                     //开始计时任务后的5毫秒，第一次执行run方法，以后每500毫秒执行一次
-                    5, 500);
+                    10, 500);
         }
     }
 }
