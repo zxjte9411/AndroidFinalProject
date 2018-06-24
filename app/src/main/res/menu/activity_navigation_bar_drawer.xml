@@ -22,8 +22,8 @@
             android:title="專輯" />
         <item
             android:id="@+id/nav_song"
-            android:icon="@drawable/ic_menu_song"
-            android:title="歌曲" />
+            android:icon="@drawable/ic_menu_singer"
+            android:title="關於" />
         <item
             android:id="@+id/nav_folder"
             android:icon="@drawable/ic_menu_folder"

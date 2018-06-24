@@ -196,7 +196,7 @@ public class NavigationBarActivity extends AppCompatActivity implements Navigati
             case 2:
                 return "專輯";
             case 3:
-                return "歌曲";
+                return "關於";
             default:
                 return null;
             }
