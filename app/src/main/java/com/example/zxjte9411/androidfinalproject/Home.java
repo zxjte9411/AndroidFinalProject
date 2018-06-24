@@ -51,6 +51,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     public static final String previousPag = "..";
     public static File root, folder;
     public static String path;
+    public static String name;
     public static ArrayList<String> fileNameList;
     public static ArrayList<File> filePathList;
     public static ArrayList<File> musicPlayList;
@@ -134,6 +135,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             }
 
             tv_progress.setText(strMinute + ":" + strSecond);
+            tv_name.setText(name);
         }
     };
     private static TextView tv_name;

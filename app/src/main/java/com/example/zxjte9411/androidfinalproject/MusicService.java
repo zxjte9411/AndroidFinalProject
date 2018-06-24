@@ -77,7 +77,7 @@ public class MusicService extends Service {
             //添加计时器
             addTimer();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
