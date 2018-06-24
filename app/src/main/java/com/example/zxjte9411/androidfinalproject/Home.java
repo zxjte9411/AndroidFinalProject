@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -29,6 +30,7 @@ import java.util.Collections;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -39,16 +41,20 @@ import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-//    public static MediaPlayer mediaPlayer = new MediaPlayer();
 
-    public static final String previousPag = "..";
+    //    public static MediaPlayer mediaPlayer = new MediaPlayer();
     public static MusicInterface mi;
     /*-------------------------------------------------*/
     public static ArrayAdapter arrayListViewAdapter;
+    public static ArrayAdapter musicPlayListAdapter;
+    /*----File----*/
+    public static final String previousPag = "..";
     public static File root, folder;
     public static String path;
     public static ArrayList<String> fileNameList;
     public static ArrayList<File> filePathList;
+    public static ArrayList<File> musicPlayList;
+    private static boolean isInitialize = false;
     //用于设置音乐播放器的播放进度
     private static SeekBar sb;
     private static TextView tv_progress;
@@ -138,7 +144,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        HomePermissionsDispatcher.needsPermissionWithPermissionCheck(this);
 
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -154,22 +159,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home);
 
-        /*----------------------------------------*/
-        root = Environment.getExternalStorageDirectory();
-        path = Environment.getExternalStorageDirectory().getPath();
-        folder = new File(path);
-        fileNameList = new ArrayList<>();
-        filePathList = new ArrayList<>();
-        for(int i = 0;i<folder.listFiles().length;i++){
-            fileNameList.add(folder.listFiles()[i].getName());
-            filePathList.add(folder.listFiles()[i]);
-        }
-        Collections.sort(fileNameList);
-        fileNameList.add(0,previousPag);
-        arrayListViewAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,fileNameList);
+        HomePermissionsDispatcher.needsPermissionWithPermissionCheck(this);
 
-
-
+//        initializeFile();
         sb = findViewById(R.id.sb);
         tv_progress = (TextView) findViewById(R.id.tv_progress);
         tv_total = (TextView) findViewById(R.id.tv_total);
@@ -281,6 +273,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void needsPermission() {
+        initializeFile();
     }
 
     @Override
@@ -350,5 +343,62 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         }
 
+    }
+
+    public boolean isMusicFormat(String fileName){
+        String[] formats = {".mp3", ".ogg"};
+        for(String format: formats){
+            return fileName.endsWith(format);
+        }
+        return false;
+    }
+
+    @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    void initializeFile(){
+        if (isInitialize){
+            return;
+        }else {
+            isInitialize = true;
+        }
+        /*資料夾在所有檔案後面 播放清單沒有資料夾*/
+        root = Environment.getExternalStorageDirectory();
+        path = Environment.getExternalStorageDirectory().getPath();
+        folder = new File(path + "/Music");
+        fileNameList = new ArrayList<>();
+        filePathList = new ArrayList<>();
+        musicPlayList = new ArrayList<>();
+        /*暫存資料夾路徑及檔名*/
+        ArrayList<String> fileNameListTmp = new ArrayList<>();
+        ArrayList<File> filePathListTmp = new ArrayList<>();
+        for(File fileName: folder.listFiles()){
+            Log.v("files",fileName.getName());
+            if(fileName.isFile()){ // 檢查是不是檔案
+                if(isMusicFormat(fileName.getName())){ //檢查是否是音樂格式
+                    Log.v("addinf","added!");
+                    fileNameList.add(fileName.getName());
+                    filePathList.add(fileName);
+                    musicPlayList.add(fileName);
+                }
+            }else{// 是資料夾
+                if(!fileName.getName().startsWith(".")){
+                    fileNameListTmp.add(fileName.getName());
+                    filePathListTmp.add(fileName);
+                }
+            }
+        }
+        Collections.sort(musicPlayList);
+        ArrayList<String> temp = new ArrayList<>();
+        for(File musicFileName:musicPlayList) {
+            temp.add(musicFileName.getName());
+        }
+        musicPlayListAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,temp);//音樂清單
+        Collections.sort(fileNameList);//只有檔案名稱
+        Collections.sort(filePathList);//檔按路徑
+        Collections.sort(fileNameListTmp);//只有檔案名稱
+        Collections.sort(filePathListTmp);//檔按路徑
+        fileNameList.addAll(fileNameListTmp);
+        filePathList.addAll(filePathListTmp);
+        fileNameList.add(0,previousPag);
+        arrayListViewAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,fileNameList);//所有檔案清單
     }
 }

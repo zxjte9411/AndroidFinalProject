@@ -23,13 +23,35 @@ public class NavigationBarActivity extends AppCompatActivity implements Navigati
 
     //fragments
     private AlbumFragment albumFragment;
-    private PlayListFragment playListFragmen;
+    private PlayListFragment playListFragment;
     private SingerFragment singerFragment;
     private SongFragment songFragment;
     private TabLayout tabLayout;
     private NavigationView navigationView;
+    ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-    Bundle bundle;
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            if(position == 0) {
+                navigationView.setCheckedItem(R.id.nav_playList);
+            } else if(position == 1){
+                navigationView.setCheckedItem(R.id.nav_singer);
+            } else if(position == 2){
+                navigationView.setCheckedItem(R.id.nav_album);
+            } else if(position == 3){
+                navigationView.setCheckedItem(R.id.nav_song);
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +78,7 @@ public class NavigationBarActivity extends AppCompatActivity implements Navigati
         viewPager.setOnPageChangeListener(onPageChangeListener);
 
         albumFragment = new AlbumFragment();
-        playListFragmen = new PlayListFragment();
+        playListFragment = new PlayListFragment();
         singerFragment = new SingerFragment();
         songFragment = new SongFragment();
 
@@ -77,10 +99,7 @@ public class NavigationBarActivity extends AppCompatActivity implements Navigati
                 navigationView.setCheckedItem(R.id.nav_song);
                 break;
         }
-
-        bundle = new Bundle();
     }
-
 
     @Override
     public void onBackPressed() {
@@ -140,31 +159,6 @@ public class NavigationBarActivity extends AppCompatActivity implements Navigati
         return true;
     }
 
-    ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            if(position == 0) {
-                navigationView.setCheckedItem(R.id.nav_playList);
-            } else if(position == 1){
-                navigationView.setCheckedItem(R.id.nav_singer);
-            } else if(position == 2){
-                navigationView.setCheckedItem(R.id.nav_album);
-            } else if(position == 3){
-                navigationView.setCheckedItem(R.id.nav_song);
-            }
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-//            Log.d("onPageScrollStateChanged", String.valueOf(state));
-        }
-    };
-
     public class SectionPagerAdapter extends FragmentPagerAdapter {
         SectionPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -175,8 +169,7 @@ public class NavigationBarActivity extends AppCompatActivity implements Navigati
             Fragment fragment = null;
             switch (position){
                 case 0:
-                    playListFragmen.setArguments(bundle);
-                    fragment = playListFragmen;
+                    fragment = playListFragment;
                     break;
                 case 1:
                     fragment = singerFragment;
