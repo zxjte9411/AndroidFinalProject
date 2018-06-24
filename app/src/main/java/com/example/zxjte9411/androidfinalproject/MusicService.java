@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,6 +35,7 @@ public class MusicService extends Service {
 
         //创建音乐播放器对象
         player = new MediaPlayer();
+        player.setLooping(true);
     }
 
     //销毁播放音乐服务
@@ -77,8 +78,9 @@ public class MusicService extends Service {
             //添加计时器
             addTimer();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+//            e.printStackTrace();
+            Toast.makeText(this, "請先選取一首歌", Toast.LENGTH_SHORT).show();
         }
     }
 

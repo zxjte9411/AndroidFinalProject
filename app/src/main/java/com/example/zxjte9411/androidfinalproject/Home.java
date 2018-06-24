@@ -20,17 +20,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import android.view.View;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -160,8 +158,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         navigationView.setCheckedItem(R.id.nav_home);
 
         HomePermissionsDispatcher.needsPermissionWithPermissionCheck(this);
-        MusicService.path = musicPlayList.get(0).getPath();
-//        initializeFile();
+        try {
+            MusicService.path = musicPlayList.get(0).getPath();
+        }
+        catch (Exception e){
+            Toast.makeText(this, "Music 目錄下沒有歌曲檔案", Toast.LENGTH_SHORT).show();
+        }
+
         sb = findViewById(R.id.sb);
         tv_progress = (TextView) findViewById(R.id.tv_progress);
         tv_total = (TextView) findViewById(R.id.tv_total);
