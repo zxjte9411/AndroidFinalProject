@@ -15,15 +15,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-public class NavigationBarActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-    public final String TAG = "Debug";
-
+public class NavigationBarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private ViewPager viewPager;
 
     //fragments
@@ -31,11 +26,10 @@ public class NavigationBarActivity extends AppCompatActivity
     private PlayListFragment playListFragmen;
     private SingerFragment singerFragment;
     private SongFragment songFragment;
-
     private TabLayout tabLayout;
     private NavigationView navigationView;
 
-
+    Bundle bundle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +77,8 @@ public class NavigationBarActivity extends AppCompatActivity
                 navigationView.setCheckedItem(R.id.nav_song);
                 break;
         }
+
+        bundle = new Bundle();
     }
 
 
@@ -98,52 +94,47 @@ public class NavigationBarActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation_bar, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        // Handle navigation view item clicks here
         Intent intent = new Intent();
-
-        if (id == R.id.nav_home) {
-            intent.setClass(NavigationBarActivity.this,Home.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_queue_music) {
-            intent.setClass(NavigationBarActivity.this,PlayQueue.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_playList) {
-            viewPager.setCurrentItem(0);
-        } else if (id == R.id.nav_singer) {
-            viewPager.setCurrentItem(1);
-        } else if (id == R.id.nav_album) {
-            viewPager.setCurrentItem(2);
-        } else if (id == R.id.nav_song) {
-            viewPager.setCurrentItem(3);
-        } else if (id == R.id.nav_folder) {
-            intent.setClass(NavigationBarActivity.this,Folder.class);
-            startActivity(intent);
+        switch (item.getItemId()){
+            case R.id.nav_home:
+                intent.setClass(NavigationBarActivity.this,Home.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_queue_music:
+                intent.setClass(NavigationBarActivity.this,PlayQueue.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_playList:
+                viewPager.setCurrentItem(0);
+                break;
+            case R.id.nav_singer:
+                viewPager.setCurrentItem(1);
+                break;
+            case R.id.nav_album:
+                viewPager.setCurrentItem(2);
+                break;
+            case R.id.nav_song:
+                viewPager.setCurrentItem(3);
+                break;
+            case R.id.nav_folder:
+                intent.setClass(NavigationBarActivity.this,Folder.class);
+                startActivity(intent);
+                break;
         }
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -152,7 +143,7 @@ public class NavigationBarActivity extends AppCompatActivity
     ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//            Log.d("onPageScrolled", String.valueOf(position));
+
         }
 
         @Override
@@ -184,6 +175,7 @@ public class NavigationBarActivity extends AppCompatActivity
             Fragment fragment = null;
             switch (position){
                 case 0:
+                    playListFragmen.setArguments(bundle);
                     fragment = playListFragmen;
                     break;
                 case 1:

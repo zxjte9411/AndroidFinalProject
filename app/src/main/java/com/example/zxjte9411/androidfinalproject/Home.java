@@ -3,6 +3,7 @@ package com.example.zxjte9411.androidfinalproject;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -22,6 +28,14 @@ import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    /*-------------------------------------------------*/
+    public static ArrayAdapter arrayListViewAdapter;
+    public static final String previousPag = "..";
+    public static File root, folder;
+    public static String path;
+    public static ArrayList<String> fileNameList;
+    public static ArrayList<File> filePathList;
+    /*-------------------------------------------------*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +54,20 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home);
+        /*----------------------------------------*/
+        root = Environment.getExternalStorageDirectory();
+        path = Environment.getExternalStorageDirectory().getPath();
+        folder = new File(path);
+        fileNameList = new ArrayList<>();
+        filePathList = new ArrayList<>();
+        for(int i = 0;i<folder.listFiles().length;i++){
+            fileNameList.add(folder.listFiles()[i].getName());
+            filePathList.add(folder.listFiles()[i]);
+        }
+        Collections.sort(fileNameList);
+        fileNameList.add(0,previousPag);
+        arrayListViewAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,fileNameList);
+
     }
 
     @Override

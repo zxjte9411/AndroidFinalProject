@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 
 /**
@@ -26,11 +27,10 @@ public class PlayListFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private OnFragmentInteractionListener mListener;
 
-    public PlayListFragment() {
-        // Required empty public constructor
-    }
+    private OnFragmentInteractionListener mListener;
+    private ListView pathListView;
+    public PlayListFragment() {}
 
     /**
      * Use this factory method to create a new instance of
@@ -57,19 +57,17 @@ public class PlayListFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        /*check permission for read external storage*/
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        pathListView = getActivity().findViewById(R.id.play_list_List_view);
+        pathListView.setAdapter(Home.arrayListViewAdapter);
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_play_list, container, false);
     }
 

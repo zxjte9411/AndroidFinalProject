@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +25,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Folder extends AppCompatActivity
@@ -34,7 +34,7 @@ public class Folder extends AppCompatActivity
     private File root, folder;
     private String path;
     private ArrayList<String> fileNameList;
-    private ArrayList<File> fileArrayList;
+    private ArrayList<File> filePathList;
     private ListView pathListView;
     MediaPlayer mediaPlayer;
     ArrayAdapter arrayAdapter;
@@ -42,39 +42,44 @@ public class Folder extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_folder);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_folder);
-
+        /*----List View----*/
         pathListView = findViewById(R.id.path_list_view);
         pathListView.setOnItemClickListener(onItemClickListener);
-        root = Environment.getExternalStorageDirectory();
-        path = Environment.getExternalStorageDirectory().getPath();
-        folder = new File(path + "/Music");
-        fileNameList = new ArrayList<String>();
-        fileNameList.add(previousPag);
-//        fileNameList.addAll(Arrays.asList(folder.list()));
-        for(int i = 0;i<folder.listFiles().length;i++){
-            fileNameList.add(folder.listFiles()[i].getName());
-        }
-        Collections.sort(fileNameList);
-        arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,fileNameList);
+        /*----File----*/
+        root = Home.root;
+        path = Home.path;
+        folder = Home.folder;
+        /*----ArrayList----*/
+        fileNameList = new ArrayList<>();
+        filePathList = new ArrayList<>();
+        fileNameList = Home.fileNameList;
+        filePathList = Home.filePathList;
+//        for(int i = 0;i<folder.listFiles().length;i++){
+//            fileNameList.add(folder.listFiles()[i].getName());
+//            filePathList.add(folder.listFiles()[i]);
+//        }
+//        Collections.sort(fileNameList);
+//        fileNameList.add(0,previousPag);
+        arrayAdapter = Home.arrayListViewAdapter;
         pathListView.setAdapter(arrayAdapter);
         mediaPlayer = new MediaPlayer();
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -84,24 +89,15 @@ public class Folder extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.folder, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -121,6 +117,7 @@ public class Folder extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_playList) {
             intent.putExtra("View",0);
+            intent.putExtra("fileNameList", Home.fileNameList);
             startActivity(intent);
         } else if (id == R.id.nav_singer) {
             intent.putExtra("View",1);
@@ -135,7 +132,7 @@ public class Folder extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -144,39 +141,83 @@ public class Folder extends AppCompatActivity
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             Toast.makeText(Folder.this, fileNameList.get(i), Toast.LENGTH_SHORT).show();
-            Uri uri = Uri.fromFile(new File(folder.getPath() + "/Anicca.mp3"));
-            if(mediaPlayer.isPlaying()){
-                mediaPlayer.release();
-                mediaPlayer.reset();
+            File isFile = new File(folder.getPath() + "/" + fileNameList.get(i));
+            Log.d("isFile", String.valueOf(isFile.isFile()));
+            if(isFile.isFile()){
+                Log.e("folderName", isFile.getName());
+                Log.e("parentPath", isFile.getParentFile().getName());
+                Log.e("root",folder.getPath());
+                Uri uri = Uri.fromFile(new File(filePathList.get(i - 1).getPath()));
+                if(mediaPlayer.isPlaying()){
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                }
+                else{
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                }
+                try {
+                    mediaPlayer.setDataSource(Folder.this,uri);
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            try {
-                mediaPlayer.setDataSource(Folder.this,uri);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (IOException e) {
-                e.printStackTrace();
+            else {//進入上層目錄
+                if(fileNameList.get(i).equals("..")){
+                    Log.e("folderName", isFile.getName());
+                    Log.e("parentPath", isFile.getParentFile().getParentFile().getName());
+                    Log.e("root",folder.getPath());
+                    resetListView(isFile.getParentFile().getParentFile());
+                }
+                else {//進入一般資料夾
+                    Log.e("folderName", isFile.getName());
+                    Log.e("parentPath", isFile.getParentFile().getName());
+                    Log.e("root",folder.getPath());
+                    resetListView(isFile);
+                }
             }
-//            folder = new File(folder.getPath() + "/" + list.get(i));
-//            Toast.makeText(Folder.this, folder.getAbsolutePath(), Toast.LENGTH_SHORT).show();
-//            fileNameList.clear();
-//            fileNameList.add(previousPag);
-//            fileNameList.addAll(Arrays.asList(folder.list()));
-//            for(int k = 0;k<folder.listFiles().length;k++){
-//                fileNameList.add(folder.listFiles()[k].getName());
-//            }
-//            Collections.sort(fileNameList);
-//            pathListView.setAdapter(new ArrayAdapter(Folder.this,android.R.layout.simple_list_item_1,fileNameList));
         }
     };
 
-//    FilenameFilter mediafilefilter = new FilenameFilter(){
-//        private String[] filter = {".mp3",".ogg",".mp4"};
-//        @Override
-//        public boolean accept(File dir, String filename) {
-//            for(int i= 0;i< filter.length ; i++){
-//                if(filename.indexOf(filter[i]) != -1)return true;
-//                else if(!dir.isFile())return true;
-//            }
-//            return false;
-//        }};
+
+    public void resetListView(File file){
+        String[] formates = {".mp3", ".ogg"};
+        ArrayList<File> filesPathTmp = new ArrayList<>();
+        ArrayList<String> filesNameTmp = new ArrayList<>();
+        fileNameList.clear();
+        filePathList.clear();
+        folder = new File(file.getPath());//取得當前目錄路徑
+        for(int k = 0;k<folder.listFiles().length;k++){
+            if(folder.listFiles()[k].isFile()){
+                for(String formate: formates){
+                    if(folder.listFiles()[k].getName().endsWith(formate)){
+                        fileNameList.add(folder.listFiles()[k].getName());
+                        filePathList.add(folder.listFiles()[k]);
+                    }
+                }
+
+            }
+            else{
+                if(!folder.listFiles()[k].getName().startsWith(".")){
+                    filesNameTmp.add(folder.listFiles()[k].getName());
+                    filesPathTmp.add(folder.listFiles()[k]);
+                }
+            }
+        }
+
+        Collections.sort(fileNameList);
+        Collections.sort(filePathList);
+        fileNameList.addAll(filesNameTmp);
+        filePathList.addAll(filesPathTmp);
+        fileNameList.add(0, previousPag);
+//        filePathList.add(0, new File(file.getParentFile().getPath() + "../"));
+        arrayAdapter = new ArrayAdapter(Folder.this,android.R.layout.simple_list_item_1,fileNameList);
+        pathListView.setAdapter(arrayAdapter);
+        Home.arrayListViewAdapter = arrayAdapter;
+        Home.fileNameList = fileNameList;
+        Home.filePathList = filePathList;
+        Home.folder = folder;
+    }
 }
