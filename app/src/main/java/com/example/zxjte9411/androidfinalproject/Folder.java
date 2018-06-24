@@ -42,8 +42,6 @@ public class Folder extends AppCompatActivity
                 Log.e("folderName", isFile.getName());
                 Log.e("parentPath", isFile.getParentFile().getName());
                 Log.e("root", folder.getPath());
-
-//                Uri uri = Uri.fromFile(new File(filePathList.get(i - 1).getPath()));
                 MusicService.path = filePathList.get(i - 1).getPath();
                 if (Home.mi.isPlaying()) {
                     Home.mi.stop();

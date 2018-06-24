@@ -160,7 +160,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         navigationView.setCheckedItem(R.id.nav_home);
 
         HomePermissionsDispatcher.needsPermissionWithPermissionCheck(this);
-
+        MusicService.path = musicPlayList.get(0).getPath();
 //        initializeFile();
         sb = findViewById(R.id.sb);
         tv_progress = (TextView) findViewById(R.id.tv_progress);
