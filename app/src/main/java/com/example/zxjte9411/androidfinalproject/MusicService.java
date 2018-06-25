@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -141,6 +142,10 @@ public class MusicService extends Service {
         }
     }
 
+    public void toast(){
+        Toast.makeText(MusicService.this, "Finish", Toast.LENGTH_SHORT).show();
+    }
+
     //设置音乐的播放位置
     public void seekTo(int progress) {
 
@@ -164,13 +169,27 @@ public class MusicService extends Service {
 
                                    //获得歌曲总时长
                                    int duration = player.getDuration();
-                                   player.setLooping(true);
+//                                   player.setLooping(true);
                                    //获得歌曲的当前播放进度
                                    int currentPosition = player.getCurrentPosition();
+                                   if(!player.isPlaying()){
+                                       int index = 0;
+                                       for(File music: Home.musicPlayList){
+                                           if (music.getPath().equals(path)){
+                                               index = Home.musicPlayList.indexOf(music);
+                                               Log.v("index", String.valueOf(index));
+                                               if(index > Home.musicPlayList.size())index = 0;
+                                               path = Home.musicPlayList.get(index + 1).getPath();
+                                               Home.name = Home.musicPlayList.get(index + 1).getName();
+                                               play();
+                                               Log.v("next",Home.musicPlayList.get(index + 1).getName());
+                                               break;
+                                           }
+                                       }
 
+                                   }
                                    //创建消息对象
                                    Message msg = Home.handler.obtainMessage();
-                                    Log.e("isLooping", String.valueOf(player.isLooping()));
                                    //将音乐的播放进度封装至消息对象中
                                    Bundle bundle = new Bundle();
                                    bundle.putInt("duration", duration);
