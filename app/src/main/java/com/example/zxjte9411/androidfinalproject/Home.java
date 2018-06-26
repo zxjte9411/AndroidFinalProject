@@ -163,6 +163,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         HomePermissionsDispatcher.needsPermissionWithPermissionCheck(this);
         try {
             MusicService.path = musicPlayList.get(0).getPath();
+            name = musicPlayList.get(0).getName();
         }
         catch (Exception e){
             Toast.makeText(this, "Music 目錄下沒有歌曲檔案", Toast.LENGTH_SHORT).show();
