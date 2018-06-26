@@ -68,7 +68,7 @@ public class MusicService extends Service {
             }
             //重置
             player.reset();
-            //加载多媒体文
+            //加载多媒体文件
             player.setDataSource(path);
 
             //准备播放音乐
@@ -176,36 +176,29 @@ public class MusicService extends Service {
                                    int duration;
                                    //获得歌曲的当前播放进度
                                    int currentPosition;
-                                   player.setLooping(true);
                                    try {
                                        duration = player.getDuration();
                                        currentPosition = player.getCurrentPosition();
                                    }catch (Exception e){
                                     return;
                                    }
-                                   Log.d("isAllSongLooping", String.valueOf(isAllSongLooping));
-                                   Log.d("isSingleLooping", String.valueOf(isSingleLooping));
-                                   if(!player.isPlaying()){
-                                       if(isAllSongLooping){
-                                           int index = 0;
-                                           for(File music: Home.musicPlayList){
-                                               if (music.getPath().equals(path)){
-                                                   index = Home.musicPlayList.indexOf(music) + 1;
-                                                   Log.d("index", String.valueOf(index));
-                                                   if(index >= Home.musicPlayList.size()){index = 0;}
-                                                   path = Home.musicPlayList.get(index).getPath();
-                                                   Home.name = Home.musicPlayList.get(index).getName();
-                                                   Looper.prepare();
-                                                   play();
-                                                   Looper.loop();
-                                                   Log.d("next",Home.musicPlayList.get(index).getName());
-                                                   break;
-                                               }
+                                   Log.v("test", String.valueOf(player.isPlaying()));
+                                   if(!player.isPlaying() && player.isLooping()){
+                                       int index = 0;
+                                       for(File music: Home.musicPlayList){
+                                           if (music.getPath().equals(path)){
+                                               index = Home.musicPlayList.indexOf(music) + 1;
+                                               Log.d("index", String.valueOf(index));
+                                               if(index >= Home.musicPlayList.size()){index = 0;}
+                                               path = Home.musicPlayList.get(index).getPath();
+                                               Home.name = Home.musicPlayList.get(index).getName();
+                                               Looper.prepare();
+                                               play();
+                                               Looper.loop();
+                                               Log.d("next",Home.musicPlayList.get(index).getName());
+                                               break;
                                            }
-                                       }else if(isSingleLooping){
-                                           player.setLooping(true);
                                        }
-
                                    }
                                    //创建消息对象
                                    Message msg = Home.handler.obtainMessage();
