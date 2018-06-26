@@ -67,7 +67,6 @@ public class MusicService extends Service {
             }
             //重置
             player.reset();
-
             //加载多媒体文件
             player.setDataSource(path);
 
@@ -175,7 +174,6 @@ public class MusicService extends Service {
                                                index = Home.musicPlayList.indexOf(music) + 1;
                                                Log.d("index", String.valueOf(index));
                                                if(index >= Home.musicPlayList.size()){index = 0;}
-                                               player.reset();
                                                path = Home.musicPlayList.get(index).getPath();
                                                Home.name = Home.musicPlayList.get(index).getName();
                                                Looper.prepare();

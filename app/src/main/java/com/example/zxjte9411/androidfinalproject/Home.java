@@ -341,6 +341,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 if(index < 0)index += musicPlayList.size();
                 MusicService.path = musicPlayList.get(index).getPath();
                 name = musicPlayList.get(index).getName();
+                mi.stop();
                 mi.play();
                 Log.v("next",musicPlayList.get(index).getName());
                 break;
@@ -358,6 +359,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 if(index >= musicPlayList.size())index = 0;
                 MusicService.path = musicPlayList.get(index).getPath();
                 name = musicPlayList.get(index).getName();
+                mi.stop();
                 mi.play();
                 Log.v("next",musicPlayList.get(index).getName());
                 break;
