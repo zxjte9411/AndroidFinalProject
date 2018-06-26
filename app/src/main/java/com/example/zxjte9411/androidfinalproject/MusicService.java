@@ -67,7 +67,7 @@ public class MusicService extends Service {
             }
             //重置
             player.reset();
-            //加载多媒体文件
+            //加载多媒体文
             player.setDataSource(path);
 
             //准备播放音乐
