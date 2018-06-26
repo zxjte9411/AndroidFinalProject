@@ -111,21 +111,21 @@
             android:onClick="exit"
             android:text="退出" />
 
-        <ImageButton
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:background="@drawable/ic_loop"
-            android:onClick="loopSongForSingle"
-            android:text="單曲循環" />
+        <!--<ImageButton-->
+            <!--android:layout_width="48dp"-->
+            <!--android:layout_height="48dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/ic_loop"-->
+            <!--android:onClick="loopSongForSingle"-->
+            <!--android:text="單曲循環" />-->
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="loopSongForAll"
-        android:text="歌曲循環" />
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:onClick="loopSongForAll"-->
+        <!--android:text="歌曲循環" />-->
 
 </LinearLayout>

@@ -14,16 +14,16 @@
             android:title="播放清單" />
         <item
             android:id="@+id/nav_singer"
-            android:icon="@drawable/ic_crop_original_black_24dp"
-            android:title="圖片" />
+            android:icon="@drawable/ic_play_circle_outline_black_24dp"
+            android:title="專案名稱" />
         <item
             android:id="@+id/nav_album"
-            android:icon="@drawable/ic_crop_original_black_24dp"
-            android:title="圖片" />
+            android:icon="@drawable/ic_menu_singer"
+            android:title="作者1" />
         <item
             android:id="@+id/nav_song"
             android:icon="@drawable/ic_menu_singer"
-            android:title="關於" />
+            android:title="作者2" />
         <item
             android:id="@+id/nav_folder"
             android:icon="@drawable/ic_menu_folder"

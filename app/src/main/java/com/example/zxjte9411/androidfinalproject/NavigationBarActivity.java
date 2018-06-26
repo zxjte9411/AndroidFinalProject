@@ -192,11 +192,11 @@ public class NavigationBarActivity extends AppCompatActivity implements Navigati
             case 0:
                 return "播放清單";
             case 1:
-                return "圖片";
+                return "專案名稱";
             case 2:
-                return "圖片";
+                return "作者1";
             case 3:
-                return "關於";
+                return "作者2";
             default:
                 return null;
             }
