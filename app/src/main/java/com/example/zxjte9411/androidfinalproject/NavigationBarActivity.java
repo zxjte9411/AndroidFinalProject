@@ -192,9 +192,9 @@ public class NavigationBarActivity extends AppCompatActivity implements Navigati
             case 0:
                 return "播放清單";
             case 1:
-                return "演出者";
+                return "圖片";
             case 2:
-                return "專輯";
+                return "圖片";
             case 3:
                 return "關於";
             default:
