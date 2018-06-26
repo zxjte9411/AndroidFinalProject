@@ -49,9 +49,10 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_gravity="center">
 
         <ImageButton
             android:layout_width="48dp"
@@ -60,14 +61,6 @@
             android:background="@drawable/ic_previous"
             android:onClick="previousSong"
             android:text="上一首" />
-
-        <ImageButton
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:background="@drawable/ic_replay"
-            android:onClick="play"
-            android:text="播放音乐" />
 
         <ImageButton
             android:layout_width="48dp"
@@ -86,17 +79,6 @@
             android:text="暂停播放" />
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="上一首"
-        android:onClick="previousSong"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="單曲循環"
-        android:onClick="loopSongForSingle"/>
-
         <ImageButton
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -104,6 +86,22 @@
             android:background="@drawable/ic_next"
             android:onClick="nextSong"
             android:text="下一首" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/ic_replay"
+            android:onClick="play"
+            android:text="播放音乐" />
 
         <ImageButton
             android:layout_width="48dp"
@@ -113,11 +111,21 @@
             android:onClick="exit"
             android:text="退出" />
 
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/ic_loop"
+            android:onClick="loopSongForSingle"
+            android:text="單曲循環" />
+
     </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="歌曲循環"
-        android:onClick="loopSongForAll"/>
+        android:layout_weight="1"
+        android:onClick="loopSongForAll"
+        android:text="歌曲循環" />
+
 </LinearLayout>
