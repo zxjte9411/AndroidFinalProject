@@ -331,6 +331,40 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         finish();
     }
 
+    public void previousSong(View view){
+        Toast.makeText(this, "previousSong", Toast.LENGTH_SHORT).show();
+        int index = 0;
+        for(File music: musicPlayList){
+            if (music.getPath().equals(MusicService.path)){
+                index = musicPlayList.indexOf(music) - 1;
+                Log.v("index", String.valueOf(index));
+                if(index < 0)index += musicPlayList.size();
+                MusicService.path = musicPlayList.get(index).getPath();
+                name = musicPlayList.get(index).getName();
+                mi.play();
+                Log.v("next",musicPlayList.get(index).getName());
+                break;
+            }
+        }
+    }
+
+    public void nextSong(View view){
+        Toast.makeText(this, "nextSong", Toast.LENGTH_SHORT).show();
+        int index = 0;
+        for(File music: musicPlayList){
+            if (music.getPath().equals(MusicService.path)){
+                index = musicPlayList.indexOf(music) + 1;
+                Log.v("index", String.valueOf(index));
+                if(index >= musicPlayList.size())index = 0;
+                MusicService.path = musicPlayList.get(index).getPath();
+                name = musicPlayList.get(index).getName();
+                mi.play();
+                Log.v("next",musicPlayList.get(index).getName());
+                break;
+            }
+        }
+    }
+
     //实现服务器连接接口
     class MyServiceConn implements ServiceConnection {
 
@@ -410,5 +444,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         catch (Exception e){
             Toast.makeText(this, "當前目錄無音樂", Toast.LENGTH_SHORT).show();
         }
+    }
+    public void toast(){
+        Toast.makeText(Home.this, "請先選取一首歌", Toast.LENGTH_SHORT).show();
     }
 }

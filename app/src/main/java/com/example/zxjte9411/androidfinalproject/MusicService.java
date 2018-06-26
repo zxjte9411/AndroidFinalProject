@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -57,7 +58,6 @@ public class MusicService extends Service {
 
     //播放音乐
     public void play() {
-
         try {
 
             if(player == null)
@@ -65,7 +65,6 @@ public class MusicService extends Service {
                 player = new MediaPlayer();
                 player.setLooping(true);
             }
-            player.setLooping(true);
             //重置
             player.reset();
 
@@ -82,21 +81,18 @@ public class MusicService extends Service {
             addTimer();
 
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             Toast.makeText(this, "請先選取一首歌", Toast.LENGTH_SHORT).show();
-
         }
     }
 
     //暂停播放音乐
     public void pausePlay() {
-
         player.pause();
     }
 
     //继续播放音乐
     public void continuePlay() {
-
         player.start();
     }
 
@@ -176,17 +172,19 @@ public class MusicService extends Service {
                                        int index = 0;
                                        for(File music: Home.musicPlayList){
                                            if (music.getPath().equals(path)){
-                                               index = Home.musicPlayList.indexOf(music);
-                                               Log.v("index", String.valueOf(index));
-                                               if(index > Home.musicPlayList.size())index = 0;
-                                               path = Home.musicPlayList.get(index + 1).getPath();
-                                               Home.name = Home.musicPlayList.get(index + 1).getName();
+                                               index = Home.musicPlayList.indexOf(music) + 1;
+                                               Log.d("index", String.valueOf(index));
+                                               if(index >= Home.musicPlayList.size()){index = 0;}
+                                               player.reset();
+                                               path = Home.musicPlayList.get(index).getPath();
+                                               Home.name = Home.musicPlayList.get(index).getName();
+                                               Looper.prepare();
                                                play();
-                                               Log.v("next",Home.musicPlayList.get(index + 1).getName());
+                                               Looper.loop();
+                                               Log.d("next",Home.musicPlayList.get(index).getName());
                                                break;
                                            }
                                        }
-
                                    }
                                    //创建消息对象
                                    Message msg = Home.handler.obtainMessage();
