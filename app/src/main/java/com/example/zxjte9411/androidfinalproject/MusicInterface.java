@@ -17,4 +17,8 @@ public interface MusicInterface {
     void stop();
 
     boolean isPlaying();
+
+    void setIsAllSongLooping();
+
+    void setIsSingleLooping();
 }

@@ -83,5 +83,15 @@
         android:layout_height="wrap_content"
         android:text="上一首"
         android:onClick="previousSong"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="單曲循環"
+        android:onClick="loopSongForSingle"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="歌曲循環"
+        android:onClick="loopSongForAll"/>
 </LinearLayout>

@@ -18,6 +18,7 @@ import java.util.TimerTask;
 
 public class MusicService extends Service {
     private static MediaPlayer player;
+    boolean isAllSongLooping = false, isSingleLooping = false;
     private Timer timer;
     public static String path;
 //    public static String name;
@@ -101,7 +102,6 @@ public class MusicService extends Service {
 
     //创建一个实现音乐接口的音乐控制类
     class MusicControl extends Binder implements MusicInterface {
-
         @Override
         public void play() {
 
@@ -135,6 +135,18 @@ public class MusicService extends Service {
         public boolean isPlaying(){
             return MusicService.this.isPlaying();
         }
+
+        @Override
+        public void setIsAllSongLooping() {
+            isAllSongLooping = true;
+            isSingleLooping =false;
+        }
+
+        @Override
+        public void setIsSingleLooping() {
+            isSingleLooping = true;
+            isAllSongLooping =false;
+        }
     }
 
     public void toast(){
@@ -152,10 +164,8 @@ public class MusicService extends Service {
 
         //如果没有创建计时器对象
         if(timer == null) {
-
             //创建计时器对象
             timer = new Timer();
-
             timer.schedule(new TimerTask() {
 
                                //执行计时任务
@@ -166,28 +176,36 @@ public class MusicService extends Service {
                                    int duration;
                                    //获得歌曲的当前播放进度
                                    int currentPosition;
+                                   player.setLooping(true);
                                    try {
                                        duration = player.getDuration();
                                        currentPosition = player.getCurrentPosition();
                                    }catch (Exception e){
                                     return;
                                    }
-                                   if(!player.isPlaying() && player.isLooping()){
-                                       int index = 0;
-                                       for(File music: Home.musicPlayList){
-                                           if (music.getPath().equals(path)){
-                                               index = Home.musicPlayList.indexOf(music) + 1;
-                                               Log.d("index", String.valueOf(index));
-                                               if(index >= Home.musicPlayList.size()){index = 0;}
-                                               path = Home.musicPlayList.get(index).getPath();
-                                               Home.name = Home.musicPlayList.get(index).getName();
-                                               Looper.prepare();
-                                               play();
-                                               Looper.loop();
-                                               Log.d("next",Home.musicPlayList.get(index).getName());
-                                               break;
+                                   Log.d("isAllSongLooping", String.valueOf(isAllSongLooping));
+                                   Log.d("isSingleLooping", String.valueOf(isSingleLooping));
+                                   if(!player.isPlaying()){
+                                       if(isAllSongLooping){
+                                           int index = 0;
+                                           for(File music: Home.musicPlayList){
+                                               if (music.getPath().equals(path)){
+                                                   index = Home.musicPlayList.indexOf(music) + 1;
+                                                   Log.d("index", String.valueOf(index));
+                                                   if(index >= Home.musicPlayList.size()){index = 0;}
+                                                   path = Home.musicPlayList.get(index).getPath();
+                                                   Home.name = Home.musicPlayList.get(index).getName();
+                                                   Looper.prepare();
+                                                   play();
+                                                   Looper.loop();
+                                                   Log.d("next",Home.musicPlayList.get(index).getName());
+                                                   break;
+                                               }
                                            }
+                                       }else if(isSingleLooping){
+                                           player.setLooping(true);
                                        }
+
                                    }
                                    //创建消息对象
                                    Message msg = Home.handler.obtainMessage();

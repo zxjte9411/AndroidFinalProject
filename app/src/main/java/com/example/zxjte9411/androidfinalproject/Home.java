@@ -332,7 +332,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     public void previousSong(View view){
-        Toast.makeText(this, "previousSong", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "previousSong", Toast.LENGTH_SHORT).show();
         int index = 0;
         mi.stop();
         for(File music: musicPlayList){
@@ -350,7 +350,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     public void nextSong(View view){
-        Toast.makeText(this, "nextSong", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "nextSong", Toast.LENGTH_SHORT).show();
         int index = 0;
         mi.stop();
         for(File music: musicPlayList){
@@ -365,6 +365,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 break;
             }
         }
+    }
+
+    public void loopSongForSingle(View view){
+        mi.setIsSingleLooping();
+    }
+
+    public void loopSongForAll(View view){
+        mi.setIsAllSongLooping();
     }
 
     //实现服务器连接接口
