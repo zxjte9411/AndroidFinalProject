@@ -163,11 +163,16 @@ public class MusicService extends Service {
                                public void run() {
 
                                    //获得歌曲总时长
-                                   int duration = player.getDuration();
-//                                   player.setLooping(true);
+                                   int duration;
                                    //获得歌曲的当前播放进度
-                                   int currentPosition = player.getCurrentPosition();
-                                   if(!player.isPlaying()){
+                                   int currentPosition;
+                                   try {
+                                       duration = player.getDuration();
+                                       currentPosition = player.getCurrentPosition();
+                                   }catch (Exception e){
+                                    return;
+                                   }
+                                   if(!player.isPlaying() && player.isLooping()){
                                        int index = 0;
                                        for(File music: Home.musicPlayList){
                                            if (music.getPath().equals(path)){
@@ -198,7 +203,7 @@ public class MusicService extends Service {
                            },
 
                     //开始计时任务后的5毫秒，第一次执行run方法，以后每500毫秒执行一次
-                    10, 500);
+                    5, 500);
         }
     }
 }

@@ -334,6 +334,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     public void previousSong(View view){
         Toast.makeText(this, "previousSong", Toast.LENGTH_SHORT).show();
         int index = 0;
+        mi.stop();
         for(File music: musicPlayList){
             if (music.getPath().equals(MusicService.path)){
                 index = musicPlayList.indexOf(music) - 1;
@@ -341,7 +342,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 if(index < 0)index += musicPlayList.size();
                 MusicService.path = musicPlayList.get(index).getPath();
                 name = musicPlayList.get(index).getName();
-                mi.stop();
                 mi.play();
                 Log.v("next",musicPlayList.get(index).getName());
                 break;
@@ -352,6 +352,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     public void nextSong(View view){
         Toast.makeText(this, "nextSong", Toast.LENGTH_SHORT).show();
         int index = 0;
+        mi.stop();
         for(File music: musicPlayList){
             if (music.getPath().equals(MusicService.path)){
                 index = musicPlayList.indexOf(music) + 1;
@@ -359,7 +360,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 if(index >= musicPlayList.size())index = 0;
                 MusicService.path = musicPlayList.get(index).getPath();
                 name = musicPlayList.get(index).getName();
-                mi.stop();
                 mi.play();
                 Log.v("next",musicPlayList.get(index).getName());
                 break;
