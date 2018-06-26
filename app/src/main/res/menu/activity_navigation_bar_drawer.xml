@@ -14,12 +14,12 @@
             android:title="播放清單" />
         <item
             android:id="@+id/nav_singer"
-            android:icon="@drawable/ic_menu_singer"
-            android:title="演出者" />
+            android:icon="@drawable/ic_crop_original_black_24dp"
+            android:title="圖片" />
         <item
             android:id="@+id/nav_album"
-            android:icon="@drawable/ic_menu_album"
-            android:title="專輯" />
+            android:icon="@drawable/ic_crop_original_black_24dp"
+            android:title="圖片" />
         <item
             android:id="@+id/nav_song"
             android:icon="@drawable/ic_menu_singer"
